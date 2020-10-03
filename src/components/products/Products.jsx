@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getProducts } from '../../actions/products';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
-import EditIcon  from '@material-ui/icons/Edit';
+import { getProducts, deleteProduct } from '../../actions/products';
 import ProductsTable from './ProductsTable';
 
 class Products extends Component {
@@ -19,11 +17,15 @@ class Products extends Component {
     }
 
     componentDidMount() {
+        
         this.props.getProducts();
     }
 
-    pagination(page, size) {
-        console.debug("Products/pagination", this.props);
+    componentDidUpdate() {
+        
+    }
+
+    getProducts = (page, size) => {
         this.props.getProducts(page, size);
     }
 
@@ -31,7 +33,7 @@ class Products extends Component {
         return (
             <div>
                 <h1>Products</h1>
-                <ProductsTable products={this.props} pagination={this.pagination} />
+                <ProductsTable {...this.props} props={this.props} getProducts={getProducts} />
             </div>
         );
     }
@@ -47,4 +49,4 @@ const mapStateToProps = state => ({
     totalPages: state.products.totalPages,
 })
 
-export default connect(mapStateToProps, { getProducts })(Products);
+export default connect(mapStateToProps, { getProducts, deleteProduct })(Products);

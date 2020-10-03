@@ -1,4 +1,4 @@
-import { GET_PRODUCTS } from "../actions/types";
+import { DELETE_PRODUCT, GET_PRODUCTS } from "../actions/types";
 
 const initialState = {
   content: [],
@@ -23,6 +23,13 @@ export default function(state = initialState, action) {
         totalPages: action.payload.totalPages,
         
       }
+      case DELETE_PRODUCT:
+        console.debug("delete reducer/state", state)
+        console.debug("delete reducer/action", action)
+        return {
+          ...state,
+          content: state.content.filter(product => product.id !== action.payload)
+        }
 
     default:
       return state;
