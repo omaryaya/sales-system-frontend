@@ -1,13 +1,10 @@
-import { Button, IconButton, TableCell, TableRow, Collapse } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { Button, TableCell, TableRow } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import ProductsTable from '../products/ProductsTable';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import PropTypes from 'prop-types';
 
 Row.propTypes = {
     row: PropTypes.shape({
@@ -31,34 +28,27 @@ const useRowStyles = makeStyles({
 export default function Row(props) {
     const { order } = props;
     // const { classes } = props;
-    const [open, setOpen] = useState(false);
     const classes = useRowStyles();
-    const [products, setProducts] = useState({});
 
-    const handleExpand = (page, size) => {
-        setProducts(props.handleExpand(order.id, page, size));
-        console.debug("Row/Products", products)
+    const formatOrderDate = orderDate => {
+        //  "numeric", "2-digit", "narrow", "short", "long"
+        var options = {
+            weekday: 'short',
+            year: '2-digit',
+            month: 'short',
+            day: 'numeric'
+        };
+        return new Date(orderDate).toLocaleDateString('en-US', options);
     }
+
 
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
-                <TableCell>
-                    <IconButton aria-label="expand row" size="small" onClick={() => {
-                        setOpen(!open);
-                        if(open === false) {
-                            handleExpand(0);
-                        }
-
-                    }}>
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
-                </TableCell>
-
                 <TableCell className={classes.tableCell}>
                     <Button onClick={(event) => {
                         console.debug("Deleting", order.referenceNumber)
-                        // props.deleteProduct(order.id);
+                        props.deleteOrder(order.id);
                     }}>
                         <DeleteIcon fontSize="small" role="button" color="secondary" />
                     </Button>
@@ -66,8 +56,8 @@ export default function Row(props) {
                 <TableCell className={classes.tableCell}>
                     <Button onClick={(event) => {
                         console.debug("Editing", order.referenceNumber);
-                        // setIsEditing(row.id);
-                        // setOrderBeingEdited(row);
+                        props.setIsEditing(order.id);
+                        props.setOrderBeingEdited(order);
                     }}>
                         <EditIcon fontSize="small" role="button" />
                     </Button>
@@ -76,17 +66,14 @@ export default function Row(props) {
                 <TableCell>{order.id}</TableCell>
                 <TableCell>{order.referenceNumber}</TableCell>
                 <TableCell>{order.currency}</TableCell>
-            </TableRow>
-
-
-            <TableRow>
-                <TableCell colSpan={6}>
-                    <Collapse in={open} unmountOnExit timeout="auto">
-                        <Box margin={1}>
-                            <ProductsTable {...products} getProducts={handleExpand} />
-                            
-                        </Box>
-                    </Collapse>
+                <TableCell>{formatOrderDate(order.date)}</TableCell>
+                <TableCell className={classes.tableCell}>
+                    <Button onClick={(event) => {
+                        console.debug("Expanding details", order.referenceNumber);
+                        props.setCurrentOrder(order);
+                    }}>
+                        <KeyboardArrowRight fontSize="small" role="button" />
+                    </Button>
                 </TableCell>
             </TableRow>
         </React.Fragment>

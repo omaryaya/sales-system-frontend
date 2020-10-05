@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
-import { Button } from '@material-ui/core';
+import { Button, TableHead } from '@material-ui/core';
 import TableHeader from '../common/TableHeader';
 import * as Constants from '../../constants';
 import PaginationTableFooter from '../common/PaginationTableFooter';
@@ -112,6 +112,10 @@ const useStyles2 = makeStyles({
         display: "flexShrink",
         flexShring: 0,
         padding: "5vh"
+    },
+    price: {
+        fontWeight: "bold",
+        color: "green"
     }
 });
 
@@ -127,12 +131,10 @@ export default function ProductsTable(props) {
     const headCells = [
         { id: 'delete', numeric: false, disablePadding: true, label: 'Delete' },
         { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
-        { id: 'ID', numeric: false, disablePadding: false, label: 'ID' },
+        { id: 'ID', numeric: false, disablePadding: true, label: 'ID' },
         { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-        { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
         { id: 'SKU', numeric: false, disablePadding: false, label: 'SKU' },
         { id: 'price', numeric: true, disablePadding: false, label: 'Price' },
-        { id: 'order', numeric: false, disablePadding: true, label: 'Order' },
     ];
 
 
@@ -164,10 +166,17 @@ export default function ProductsTable(props) {
         <div className={classes.tableDivContainer}>
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="custom pagination table">
-                    <TableHeader headCells={headCells} classes={classes} />
+                    {/* <TableHeader headCells={headCells} tableCellClass={classes.tableCell} /> */}
+                    <TableHead>
+                        <TableRow key={"head"}>
+                            {headCells.map(head => (
+                                <TableCell className={classes.tableCell} key={head.id}>{head.label}</TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
 
                     <TableBody>
-                        <NewProduct {...props} />
+                        <NewProduct {...props} priceStyle={classes.price} />
                         {(rowsPerPage > 0
                             ? props.content?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             : props.content
@@ -188,10 +197,8 @@ export default function ProductsTable(props) {
                                         </TableCell>
                                         <TableCell>{productBeingEdited.id}</TableCell>
                                         <TableCell><input onChange={handleUpdateProductBeingEdited} name="name" value={productBeingEdited.name} /></TableCell>
-                                        <TableCell><input onChange={handleUpdateProductBeingEdited} name="id" value={productBeingEdited.category?.name} /></TableCell>
                                         <TableCell><input onChange={handleUpdateProductBeingEdited} name="sku" value={productBeingEdited.sku} /></TableCell>
-                                        <TableCell><input onChange={handleUpdateProductBeingEdited} name="price" value={productBeingEdited.price} /></TableCell>
-                                        <TableCell><input onChange={handleUpdateProductBeingEdited} name="order" value={productBeingEdited.order?.referenceNumber} /></TableCell>
+                                        <TableCell className={classes.price}><input onChange={handleUpdateProductBeingEdited} name="price" value={productBeingEdited.price} /></TableCell>
                                     </TableRow>
                                 );
                             } else {
@@ -218,10 +225,8 @@ export default function ProductsTable(props) {
 
                                         <TableCell>{product.id}</TableCell>
                                         <TableCell>{product.name}</TableCell>
-                                        <TableCell>{product.category?.name}</TableCell>
                                         <TableCell>{product.sku}</TableCell>
-                                        <TableCell>{product.price}</TableCell>
-                                        <TableCell>{product.order}</TableCell>
+                                        <TableCell className={classes.price}>{product.price}</TableCell>
 
                                     </TableRow>
                                 )
@@ -236,9 +241,7 @@ export default function ProductsTable(props) {
                         )}
                     </TableBody>
 
-                    {/* <PaginationTableFooter {...props} page={page} handleChangePage={handleChangePage} rowsPerPage={rowsPerPage} /> */}
-                    
-                    
+
                     <TableFooter>
                         <TableRow>
                             <TablePagination

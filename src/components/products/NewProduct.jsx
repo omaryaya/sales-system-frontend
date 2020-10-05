@@ -11,30 +11,24 @@ import TextField from '@material-ui/core/TextField'; */
 
 const NewProduct = (props) => {
 
+    const {priceStyle} = props;
+
     const [newProduct, setNewProduct] = useState({
         name: "",
-        categoryId: 0,
         sku: "",
         price: "",
-        order: {}
     });
 
     const handleUpdateNewProduct = e => {
         setNewProduct({ ...newProduct, [e.target.name]: e.target.value })
-        console.debug(newProduct)
-    }
-    const handleSelectCategory = category => {
-        setNewProduct({ ...newProduct, categoryId: category })
     }
 
     const handleAddNewProduct = e => {
         props.createProduct(newProduct);
         setNewProduct({
             name: "",
-            categoryId: 0,
             sku: "",
             price: "",
-            order: {}
         })
     }
 
@@ -54,10 +48,8 @@ const NewProduct = (props) => {
             
             <TableCell><input disabled placeholder={"ID"} name="id" /></TableCell>
             <TableCell><input placeholder={"Product Name"} onChange={handleUpdateNewProduct} name="name" value={newProduct.name} /></TableCell>
-            <TableCell><SelectComponent {...props} onChange={handleSelectCategory} /></TableCell>
             <TableCell><input placeholder={"Product SKU"} onChange={handleUpdateNewProduct} name="sku" value={newProduct.sku} /></TableCell>
-            <TableCell><input placeholder={"Price"} onChange={handleUpdateNewProduct} key="price" name="price" value={newProduct.price} /></TableCell>
-            <TableCell><input onChange={handleUpdateNewProduct} name="order" value={newProduct.order?.referenceNumber} /></TableCell>
+            <TableCell className={priceStyle}><input placeholder={"Price"} onChange={handleUpdateNewProduct} key="price" name="price" value={newProduct.price} /></TableCell>
 
         </TableRow>
     );

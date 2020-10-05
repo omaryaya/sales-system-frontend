@@ -7,17 +7,15 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import SaveIcon from '@material-ui/icons/Save';
+import CloseIcon from '@material-ui/icons/CloseSharp';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import PaginationTableFooter from '../common/PaginationTableFooter';
 import TableHeader from '../common/TableHeader';
 import Row from './Row';
 
@@ -107,14 +105,13 @@ const useStyles2 = makeStyles({
 
 export default function OrdersTable(props) {
     const classes = useStyles2();
-    const [page, setPage] = useState(props.page);
-    const [rowsPerPage, setRowsPerPage] = useState(props.size);
+    const { orders } = props;
     const [isEditing, setIsEditing] = useState(-1);
     const [orderBeingEdited, setOrderBeingEdited] = useState({});
 
 
     const headCells = [
-        { id: 'collapse', numeric: false, disablePadding: true, label: '   ' },
+
         { id: 'delete', numeric: false, disablePadding: true, label: 'Delete' },
         { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
 
@@ -122,23 +119,11 @@ export default function OrdersTable(props) {
         { id: 'ref', numeric: false, disablePadding: false, label: 'Reference #' },
 
         { id: 'currency', numeric: false, disablePadding: false, label: 'Currency' },
+        { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
+        { id: 'details', numeric: false, disablePadding: false, label: 'Details' },
 
     ];
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.content.length - page * rowsPerPage);
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-        props.getOrders(newPage, props.size);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-
-        const newSize = parseInt(event.target.value, 10);
-        setPage(0);
-        setRowsPerPage(newSize);
-        props.getOrders(page, newSize);
-    };
 
     const handleUpdateOrder = (event) => {
         console.debug("updateOrder/event", event)
@@ -149,7 +134,15 @@ export default function OrdersTable(props) {
     const EditableRow = (order) => {
         return (
             <TableRow key={order.id}>
-                <TableCell />
+                <TableCell >
+                    <Button onClick={(event) => {
+                        console.debug("Dismissing", order.name);
+                        setIsEditing(-1);
+                        setOrderBeingEdited({});
+                    }}>
+                        <CloseIcon fontSize="small" />
+                    </Button>
+                </TableCell>
                 <TableCell>
                     <Button onClick={(event) => {
                         console.debug("Saving", order.name);
@@ -162,6 +155,7 @@ export default function OrdersTable(props) {
                 <TableCell>{orderBeingEdited.id}</TableCell>
                 <TableCell><input onChange={handleUpdateOrder} name="name" value={orderBeingEdited.referenceNumber} /></TableCell>
                 <TableCell><input onChange={handleUpdateOrder} name="id" value={orderBeingEdited.currency} /></TableCell>
+                <TableCell />
             </TableRow>
         );
     }
@@ -173,10 +167,7 @@ export default function OrdersTable(props) {
                 <Table className={classes.table} aria-label="collapsible table">
                     <TableHeader headCells={headCells} classes={classes} />
                     <TableBody>
-                        {(rowsPerPage > 0
-                            ? props.content.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            : props.content
-                        ).map((order, i) => {
+                        {orders?.map((order, i) => {
                             if (isEditing === order.id) {
                                 console.debug("orderBeingEdited", orderBeingEdited)
                                 return (
@@ -184,21 +175,12 @@ export default function OrdersTable(props) {
                                 );
                             } else {
                                 return (
-                                    <Row {...props} key={i} order={order} handleExpand={props.getProductsByOrderId} />
+                                    <Row key={order.id} {...props} setIsEditing={setIsEditing} setOrderBeingEdited={setOrderBeingEdited} order={order} />
                                 )
                             }
                         }
                         )}
-
-                        {emptyRows > 0 && (
-                            <TableRow style={{ height: 53 * emptyRows }}>
-                                <TableCell colSpan={headCells.length} />
-                            </TableRow>
-                        )}
                     </TableBody>
-
-                    <PaginationTableFooter {...props} page={page} handleChangePage={handleChangePage} rowsPerPage={rowsPerPage} />
-
 
                 </Table>
             </TableContainer>

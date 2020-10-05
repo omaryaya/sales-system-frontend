@@ -38,20 +38,23 @@ export const deleteOrder = (id) => (dispatch, getState) => {
     }).catch(err => console.error(err));
 }
 
-// Get Products for Order
-export const getProductsByOrderId = (orderId, page=0, size=Constants.DEFAULT_PAGE_SIZE) => (dispatch, getState) => {
+
+
+
+
+// currencies
+export const getCurrencies = () => (dispatch, getState) => {
+    
     const configuredToken = tokenConfig(getState);
     const requestConfiguration = {
         headers: configuredToken,
-        params: {page: page, size: size}
     };
-    
-    axios.get(Constants.APP_BACKEND_URL+`/orders/order/${orderId}/products/`, requestConfiguration)
+
+    axios.get(Constants.APP_BACKEND_URL+"/orders/currencies", requestConfiguration)
     .then(res => {
-        const products = res.data;
         dispatch({
-            type: TYPES.GET_PRODUCTS_BY_ORDER_ID,
-            payload: {products, orderId}
+            type: TYPES.GET_CURRENCIES,
+            payload: res.data
         });
     }).catch(err => console.error(err));
 }

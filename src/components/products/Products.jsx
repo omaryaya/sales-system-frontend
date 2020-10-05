@@ -19,21 +19,14 @@ class Products extends Component {
     }
 
     componentDidMount() {
-        
         this.props.getProducts();
-        console.debug("Products component did mount/props", this.props)
-    }
-
-
-    getProductsTableContent = (page, size) => {
-        this.props.getProducts(page, size);
     }
 
     render() {
         return (
             <div>
                 <h1>Products</h1>
-                <ProductsTable {...this.props} getProducts={this.getProductsTableContent} />
+                <ProductsTable {...this.props} getProducts={this.props.getProducts} />
             </div>
         );
     }
@@ -47,8 +40,6 @@ const mapStateToProps = state => ({
     size: state.products.size,
     totalElements: state.products.totalElements,
     totalPages: state.products.totalPages,
-
-    categories: state.categories.state,
 })
 
 export default connect(mapStateToProps, { getProducts, deleteProduct, createProduct })(Products);

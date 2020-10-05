@@ -1,18 +1,9 @@
-import { GET_ORDERS, DELETE_ORDER, GET_PRODUCTS_BY_ORDER_ID } from "../actions/types";
+import { GET_ORDERS, DELETE_ORDER, GET_CURRENCIES } from "../actions/types";
 
 const initialState = {
-  content: [
-    {
-      products: {
-        content: [],
-        last: false,
-        page: 0,
-        size: 0,
-        totalElements: 0,
-        totalPages: 0,
-      }
-    }
-  ],
+  orders: [],
+  currencies: [],
+  content: [],
   last: false,
   page: 0,
   size: 0,
@@ -26,21 +17,19 @@ export default function (state = initialState, action) {
     case GET_ORDERS:
       return {
         ...state,
-        content: action.payload.content,
+        orders: action.payload
+        /* content: action.payload.content,
         last: action.payload.last,
         page: action.payload.page,
         size: action.payload.size,
         totalElements: action.payload.totalElements,
-        totalPages: action.payload.totalPages,
+        totalPages: action.payload.totalPages, */
 
       }
-    case GET_PRODUCTS_BY_ORDER_ID:
+    case GET_CURRENCIES:
       return {
         ...state,
-        content: state.content.map(
-          (order, i) => order.id === action.payload.orderId ? { ...order, products: action.payload.products }
-            : order
-        )
+        currencies: action.payload
 
       }
     case DELETE_ORDER:

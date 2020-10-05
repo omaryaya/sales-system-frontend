@@ -20,7 +20,24 @@ export const getProducts = (page=0, size=Constants.DEFAULT_PAGE_SIZE) => (dispat
         });
         
     }).catch(err => console.error(err));
-    dispatch(getCategories());
+    
+}
+
+// get products list
+export const getProductsList = () => (dispatch, getState) => {
+    
+    const configuredToken = tokenConfig(getState);
+    const requestConfiguration = {
+        headers: configuredToken,
+    };
+    axios.get(Constants.APP_BACKEND_URL+"/products/all/list", requestConfiguration)
+    .then(res => {
+        dispatch({
+            type: TYPES.GET_PRODUCTS_LIST,
+            payload: res.data
+        });
+        
+    }).catch(err => console.error(err));
     
 }
 
@@ -65,21 +82,3 @@ export const createProduct = (productRequest) => (dispatch, getState) => {
         })
     });
 }
-
-//          Categories
-export const getCategories = () => (dispatch, getState) => {
-    
-    const configuredToken = tokenConfig(getState);
-    const requestConfiguration = {
-        headers: configuredToken,
-    };
-    
-    axios.get(Constants.APP_BACKEND_URL+"/products/categories", requestConfiguration)
-    .then(res => {
-        dispatch({
-            type: TYPES.GET_CATEGORIES,
-            payload: res.data.object
-        });
-    }).catch(err => console.error(err));
-}
-

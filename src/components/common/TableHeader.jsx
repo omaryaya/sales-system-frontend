@@ -6,12 +6,12 @@ import TableRow from '@material-ui/core/TableRow';
 
 const TableHeader = (props) => {
     const { headCells } = props;
-    const { classes } = props;
+    const { tableCellClass } = props;
     return (
         <TableHead>
             <TableRow key={"head"}>
                 {headCells.map(head => (
-                    <TableCell className={classes.tableCell} key={head.id}>{head.label}</TableCell>
+                    <TableCell className={tableCellClass} key={head.id}>{head.label}</TableCell>
                 ))}
             </TableRow>
         </TableHead>
