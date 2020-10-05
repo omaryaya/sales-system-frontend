@@ -32,6 +32,27 @@ nav {
 nav section {
   width: 100%;
 }
+nav button span {
+  color: white;
+  text-align: end;
+}
+nav button:hover span:hover {
+  color: white;
+  background: #ec0351;
+}
+
+nav button:active span:active {
+  font-weight: 700;
+  padding: 0.25rem 1.5rem;
+  border-radius: 4px;
+  color: white !important;
+  background: #bb0533;
+}
+
+nav button:first-of-type {
+  margin-left: 1.5rem;
+}
+
 
 nav section h1,
 nav section {

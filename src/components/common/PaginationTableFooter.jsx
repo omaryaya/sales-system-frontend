@@ -35,6 +35,8 @@ function TablePaginationActions(props) {
     };
 
     const handleNextButtonClick = (event) => {
+        console.debug("TablePaginationActions/next", event)
+        console.debug("TablePaginationActions/page", page)
         onChangePage(event, page + 1);
     };
 
@@ -86,21 +88,23 @@ TablePaginationActions.propTypes = {
 
 
 const PaginationTableFooter = (props) => {
-    console.debug("Pagination Table footer props", props);
+
+    
     return (
         <TableFooter>
             <TableRow>
                 <TablePagination
+                    
                     rowsPerPageOptions={[props.size]}
                     colSpan={3}
                     count={props.totalElements || 0}
                     rowsPerPage={props.size || Constants.DEFAULT_PAGE_SIZE}
-                    page={props.page || 0}
+                    page={props.page}
                     SelectProps={{
                         inputProps: { 'aria-label': 'rows per page' },
                         native: true,
                     }}
-                    onChangePage={props.handleChangePage}
+                    onChangePage={(e) => props.handleChangePage(e, e.target.value)}
                     // onChangeRowsPerPage={() => handleChangeRowsPerPage(rowsPerPage)}
                     ActionsComponent={TablePaginationActions}
                 />

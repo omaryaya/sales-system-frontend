@@ -105,7 +105,7 @@ const useStyles2 = makeStyles({
 
 
 
-export default function OrdersTable({ props }) {
+export default function OrdersTable(props) {
     const classes = useStyles2();
     const [page, setPage] = useState(props.page);
     const [rowsPerPage, setRowsPerPage] = useState(props.size);
@@ -115,7 +115,7 @@ export default function OrdersTable({ props }) {
 
     const headCells = [
         { id: 'collapse', numeric: false, disablePadding: true, label: '   ' },
-        { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
+        { id: 'delete', numeric: false, disablePadding: true, label: 'Delete' },
         { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
 
         { id: 'ID', numeric: false, disablePadding: true, label: 'ID' },

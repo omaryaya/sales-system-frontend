@@ -31,12 +31,13 @@ const useRowStyles = makeStyles({
 export default function Row(props) {
     const { order } = props;
     // const { classes } = props;
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const classes = useRowStyles();
+    const [products, setProducts] = useState({});
 
     const handleExpand = (page, size) => {
-        console.debug("handleExpand", order);
-        props.handleExpand(order.id, page, size);
+        setProducts(props.handleExpand(order.id, page, size));
+        console.debug("Row/Products", products)
     }
 
     return (
@@ -46,7 +47,7 @@ export default function Row(props) {
                     <IconButton aria-label="expand row" size="small" onClick={() => {
                         setOpen(!open);
                         if(open === false) {
-                            handleExpand(0, 5);
+                            handleExpand(0);
                         }
 
                     }}>
@@ -82,7 +83,7 @@ export default function Row(props) {
                 <TableCell colSpan={6}>
                     <Collapse in={open} unmountOnExit timeout="auto">
                         <Box margin={1}>
-                            <ProductsTable {...props} props={order.products} getProducts={handleExpand} />
+                            <ProductsTable {...products} getProducts={handleExpand} />
                             
                         </Box>
                     </Collapse>

@@ -24,8 +24,6 @@ export default function(state = initialState, action) {
         
       }
       case DELETE_PRODUCT:
-        console.debug("delete reducer/state", state)
-        console.debug("delete reducer/action", action)
         return {
           ...state,
           content: state.content.filter(product => product.id !== action.payload)

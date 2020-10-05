@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getProducts, deleteProduct } from '../../actions/products';
+import { getProducts, deleteProduct, createProduct } from '../../actions/products';
 import ProductsTable from './ProductsTable';
 
 class Products extends Component {
@@ -14,18 +14,18 @@ class Products extends Component {
         size: PropTypes.number,
         totalElements: PropTypes.number.isRequired,
         totalPages: PropTypes.number.isRequired,
+
+        categories: PropTypes.array,
     }
 
     componentDidMount() {
         
         this.props.getProducts();
+        console.debug("Products component did mount/props", this.props)
     }
 
-    componentDidUpdate() {
-        
-    }
 
-    getProducts = (page, size) => {
+    getProductsTableContent = (page, size) => {
         this.props.getProducts(page, size);
     }
 
@@ -33,7 +33,7 @@ class Products extends Component {
         return (
             <div>
                 <h1>Products</h1>
-                <ProductsTable {...this.props} props={this.props} getProducts={getProducts} />
+                <ProductsTable {...this.props} getProducts={this.getProductsTableContent} />
             </div>
         );
     }
@@ -47,6 +47,8 @@ const mapStateToProps = state => ({
     size: state.products.size,
     totalElements: state.products.totalElements,
     totalPages: state.products.totalPages,
+
+    categories: state.categories.state,
 })
 
-export default connect(mapStateToProps, { getProducts, deleteProduct })(Products);
+export default connect(mapStateToProps, { getProducts, deleteProduct, createProduct })(Products);

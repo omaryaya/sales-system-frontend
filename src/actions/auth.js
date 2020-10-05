@@ -4,25 +4,9 @@ import * as TYPES from './types';
 
 // check token & load
 export const loadUser = () => (dispatch, getState) => {
-    // Load in progress
-    dispatch({ type: TYPES.USER_LOADING });
+    
 
-    // get token from state
-    const token = getState().auth.token;
-
-    // Headers
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-
-    // if token exists, add to headers config
-    if (token) {
-        config.headers['Authorization'] = `bearer ${token}`;
-    }
-
-    axios.get(Constants.APP_BACKEND_URL + "/auth/signin", config)
+    axios.get(Constants.APP_BACKEND_URL + "/auth/signin", tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: TYPES.USER_LOADED,
@@ -30,7 +14,6 @@ export const loadUser = () => (dispatch, getState) => {
             })
         }).catch(err => {
             console.error(err);
-            console.debug(err);
             dispatch({ type: TYPES.AUTH_ERROR })
         })
 }
@@ -51,7 +34,6 @@ export const login = (usernameOrEmail, password) => (dispatch) => {
     axios.post(Constants.APP_BACKEND_URL + "/auth/signin",
      body, config)
         .then(res => {
-            console.debug("login", res);
             dispatch({
                 type: TYPES.LOGIN_SUCCESS,
                 payload: res.data
@@ -73,13 +55,10 @@ export const register = (userdata) => (dispatch) => {
     
     // Request body
     const body = JSON.stringify(userdata);
-    console.debug("register/userdata", userdata);
-    console.debug("register/body", body);
 
     axios.post(Constants.APP_BACKEND_URL + "/auth/signup",
      body, config)
         .then(res => {
-            console.debug("signup", res);
             dispatch({
                 type: TYPES.REGISTER,
                 payload: res.data
@@ -91,22 +70,35 @@ export const register = (userdata) => (dispatch) => {
         })
 }
 
-export const logout = () => (dispatch) => {
-    console.debug("logout");
-    dispatch({
-        type: TYPES.LOGOUT,
-    })
+export const logout = () => (dispatch, getState) => {
 
+    
+    axios.post(Constants.APP_BACKEND_URL+"/auth/logout/", null, tokenConfig(getState))
+    .then(res => {
+        dispatch({
+            type: TYPES.LOGOUT_SUCCESS,
+        });
+    }
+    ).catch(err => {
+        console.error(err);
+        dispatch({
+            type: TYPES.LOGIN_FAILURE
+        });
+    });
+    
+}
 
-/*     axios.post(Constants.APP_BACKEND_URL + "/auth/signin",
-     body, config)
-        .then(res => {
-            console.debug("login", res);
-            dispatch({
-                type: TYPES.LOGIN_SUCCESS,
-                payload: res.data
-            })
-        }).catch(err => {
-            dispatch({ type: TYPES.LOGIN_FAILURE })
-        }) */
+export const tokenConfig = getState => {
+    const token = getState().auth.token;
+
+    const headers = {
+            'Authorization': ''
+    }
+    
+
+    if(token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    return headers;
 }

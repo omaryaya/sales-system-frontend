@@ -5,7 +5,7 @@ import { getOrders, deleteOrder, getProductsByOrderId } from '../../actions/orde
 import OrdersTable from './OrdersTable';
 import Invoice from '../invoices/Invoice';
 
-class Orders extends Component {
+class NewOrders extends Component {
 
     static propTypes = {
 
@@ -47,4 +47,4 @@ const mapStateToProps = state => ({
     totalPages: state.orders.totalPages,
 })
 
-export default connect(mapStateToProps, { getOrders, deleteOrder, getProductsByOrderId })(Orders);
+export default connect(mapStateToProps, { getOrders, deleteOrder, getProductsByOrderId })(NewOrders);
