@@ -3,6 +3,34 @@ import * as Constants from '../constants';
 import * as TYPES from './types';
 import {tokenConfig} from './auth';
 
+// Create Order
+
+// Create Product
+export const createOrder = (orderRequest) => (dispatch, getState) => {
+    
+    const configuredToken = tokenConfig(getState);
+    
+    const requestConfiguration = {
+        headers: configuredToken,
+    };
+    
+    axios.post(Constants.APP_BACKEND_URL+"/orders/create/", orderRequest, requestConfiguration)
+    .then(res => {
+        dispatch({
+            type: TYPES.CREATE_ORDER_SUCCESS,
+            payload: res.data
+        });
+        dispatch(getOrders());
+    }).catch(err => {
+        console.error(err);
+        dispatch({
+            type: TYPES.CREATE_ORDER_FAILED,
+            payload: err
+        })
+    });
+}
+
+
 // Get Orders
 
 export const getOrders = (page=0, size=Constants.DEFAULT_PAGE_SIZE) => (dispatch, getState) => {

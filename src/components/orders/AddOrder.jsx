@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCurrencies } from '../../actions/orders';
+import { getCurrencies, createOrder } from '../../actions/orders';
 import { getProductsList } from '../../actions/products';
 
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, Typography } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -16,12 +16,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
+import Add from '@material-ui/icons/Add';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/CloseSharp';
 import TableHeader from '../common/TableHeader';
+import SelectComponent from '../common/SelectComponent';
 
 const useStyles = makeStyles({
     table: {
@@ -45,13 +47,19 @@ const AddOrder = (props) => {
     const [order, setOrder] = useState({
         referenceNumber: "",
         currency: "",
-        items: [
-            {
-                productId: "",
-                quantity: ""
-            }
-        ]
-    })
+        items: [{
+            productId: "",
+            quantity: ""
+        }]
+        
+    });
+
+    const [orderItems, setOrderItems] = useState([
+        {
+            productId: "",
+            quantity: ""
+        }
+    ])
 
     useEffect(() => {
         props.getProductsList();
@@ -59,53 +67,80 @@ const AddOrder = (props) => {
     }, []);
 
     const headCells = [
-        { id: 'product', numeric: false, disablePadding: false, label: 'Product' },
+        { id: 'product', numeric: false, disablePadding: true, label: 'Product' },
 
-        { id: 'quantity', numeric: false, disablePadding: false, label: 'Quantity' },
+        { id: 'quantity', numeric: false, disablePadding: true, label: 'Quantity' },
 
     ];
 
-    const onChange = e => {
-        setOrder({ ...order, [e.target.name]: e.target.value })
+    // Changing order fields
+    const onChangeOrder = e => {
+        setOrder({ ...order, [e.target.name]: e.target.value });
     }
+
+    // Changing order items fields
+    const onChangeItem = (e, i) => {
+        var tempItems = [...orderItems];
+        tempItems[i][e.target.name] = e.target.value;
+        setOrderItems(tempItems);
+    }
+
+
+    const onAddExtraItem = (e, i) => {
+        var tempItems = [...orderItems];
+        tempItems.push({
+        });
+        setOrderItems(tempItems);
+    }
+
+    const createNewOrder = () => {
+        setOrder({...order, items: [...orderItems]});
+        props.createOrder(order);
+    }
+
 
     return (
         <div className={classes.tableDivContainer}>
 
             <TableContainer component={Paper}>
-                <Grid container spacing={4}>
-                    <Grid item xs={12} md={4}>
-                        <TextField label="Reference Number" onChange={onChange} id="referenceNumber" name="referenceNumber" value={order.referenceNumber} />
+                <Grid container spacing={2} justify='flex-end'>
+                    <Grid item xs={12} md={2}>
+                        <TextField label="Reference Number" onChange={onChangeOrder} id="referenceNumber" name="referenceNumber" value={order.referenceNumber} />
                     </Grid>
-                    <Grid item xs={12} md={4}>
-                        <TextField label="Currency" onChange={onChange} id="currency" name="currency" value={order.currency} />
+                    <Grid item xs={12} md={2}>
+                        <SelectComponent label="Currency" onChange={onChangeOrder} name="currency" choices={props.currencies} useObjectAsValue={true} />
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                        <Typography component="h2" variant="h5" color="inherit" align="right">
+                            <Button onClick={createNewOrder}>
+                                <Add />CREATE NEW ORDER
+                            </Button>
+
+                        </Typography>
+
                     </Grid>
                 </Grid>
                 <Table className={classes.table} >
                     <TableHeader headCells={headCells} classes={classes} />
                     <TableBody>
-                        {order.items?.map((item, i) => {
+                        {orderItems?.map((item, i) => {
                             return (
                                 <TableRow key={i}>
-                                    <TableCell><TextField label="productId" id="productId" onChange={onChange} name="productId" value={item.productId} /></TableCell>
-                                    <TableCell><TextField label="quantity" id="quantity" onChange={onChange} name="quantity" value={item.quantity} /></TableCell>
+                                    <TableCell><SelectComponent label="Products" onChange={(e) => onChangeItem(e, i)} choices={props.productsList} name="productId" /></TableCell>
+                                    <TableCell><TextField label="quantity" id="quantity" onChange={(e) => onChangeItem(e, i)} name="quantity" value={item.quantity} /></TableCell>
                                 </TableRow>
                             );
                         }
                         )}
                         <TableRow key="extra">
                             <TableCell>
-                                <Button onClick={() =>{ 
-                                    var tempOrder = {...order};
-                                    tempOrder.items = tempOrder.items.push({});
-                                    setOrder({ tempOrder }); 
-                                }
-                            }>ADD ITEM</Button>
+                                <Button onClick={onAddExtraItem}>
+                                    ADD ITEM
+                            </Button>
                             </TableCell>
                             <TableCell />
                         </TableRow>
                     </TableBody>
-
                 </Table>
             </TableContainer>
         </div>
@@ -123,4 +158,4 @@ const mapStateToProps = state => ({
     currencies: state.orders.currencies
 })
 
-export default connect(mapStateToProps, { getCurrencies, getProductsList })(AddOrder);
+export default connect(mapStateToProps, { getCurrencies, getProductsList, createOrder })(AddOrder);

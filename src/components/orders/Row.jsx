@@ -47,7 +47,6 @@ export default function Row(props) {
             <TableRow className={classes.root}>
                 <TableCell className={classes.tableCell}>
                     <Button onClick={(event) => {
-                        console.debug("Deleting", order.referenceNumber)
                         props.deleteOrder(order.id);
                     }}>
                         <DeleteIcon fontSize="small" role="button" color="secondary" />
@@ -69,6 +68,7 @@ export default function Row(props) {
                 <TableCell>{formatOrderDate(order.date)}</TableCell>
                 <TableCell className={classes.tableCell}>
                     <Button onClick={(event) => {
+                        // TODO: Implement
                         console.debug("Expanding details", order.referenceNumber);
                         props.setCurrentOrder(order);
                     }}>

@@ -26,7 +26,10 @@ const Orders = props => {
                 <Grid item xs={12} md={2}>
                     <h1>Order Details</h1>
                     <p>{currentOrder.referenceNumber}</p>
-                    {/* <AddOrder {...props} /> */}
+                    
+                </Grid>
+                <Grid item xs={12}>
+                    <AddOrder {...props} />
                 </Grid>
             </Grid>
 

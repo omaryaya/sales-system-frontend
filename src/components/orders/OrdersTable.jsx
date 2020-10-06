@@ -126,6 +126,7 @@ export default function OrdersTable(props) {
 
 
     const handleUpdateOrder = (event) => {
+        // TODO: Implement
         console.debug("updateOrder/event", event)
         console.debug("updateOrder/event.name", event.name)
 
@@ -136,6 +137,7 @@ export default function OrdersTable(props) {
             <TableRow key={order.id}>
                 <TableCell >
                     <Button onClick={(event) => {
+                        // TODO: Implement
                         console.debug("Dismissing", order.name);
                         setIsEditing(-1);
                         setOrderBeingEdited({});
@@ -145,6 +147,7 @@ export default function OrdersTable(props) {
                 </TableCell>
                 <TableCell>
                     <Button onClick={(event) => {
+                        // TODO: Implement
                         console.debug("Saving", order.name);
                         setIsEditing(-1);
                         setOrderBeingEdited({});
@@ -164,12 +167,11 @@ export default function OrdersTable(props) {
     return (
         <div className={classes.tableDivContainer}>
             <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="collapsible table">
+                <Table className={classes.table}>
                     <TableHeader headCells={headCells} classes={classes} />
                     <TableBody>
                         {orders?.map((order, i) => {
                             if (isEditing === order.id) {
-                                console.debug("orderBeingEdited", orderBeingEdited)
                                 return (
                                     <EditableRow key={i} order={order} />
                                 );

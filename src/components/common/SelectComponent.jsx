@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { TableCell } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -16,41 +17,42 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SelectComponent(props) {
   const classes = useStyles();
-  const {categories} = props;
+  const { choices, label, name, useObjectAsValue } = props;
   const [state, setState] = React.useState(-1);
 
   const handleChange = (event) => {
-    
     setState(event.target.value);
-    props.onChange(event.target.value);
+    props.onChange(event);
   };
 
   return (
-    <div>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="category-native-simple">Category</InputLabel>
-        <Select
-          native
-          value={state}
-        //   defaultValue=""
-          onChange={handleChange}
-          inputProps={{
-            name: 'category',
-            id: 'category-native-simple',
-          }}
-        >
-            <option aria-label="None" value="" />
-            {categories &&(
-                categories.map((category) => {
-                return(
-                    <option key={category.id} value={category.id}>{category?.name}</option>
-                )
-            })
-            )
+
+    <FormControl className={classes.formControl}>
+    
+      <InputLabel htmlFor="choice-native-simple">{label}</InputLabel>
+      <Select
+        native
+        value={state}
+        onChange={handleChange}
+        inputProps={{
+          name: props.name,
+          id: 'choice-native-simple',
+        }}
+      >
+        <option aria-label="None" value={label} />
+        {choices && (
+          choices.map((choice, i) => {
+            if (useObjectAsValue === true) {
+              return (<option key={i} value={choice}>{choice}</option>)
+            } else {
+              return (<option key={i} value={choice.id}>{choice.name}</option>)
+            }
+          })
+        )
         }
-        </Select>
-      </FormControl>
-      
-    </div>
+      </Select>
+    
+    </FormControl>
+
   );
 }
