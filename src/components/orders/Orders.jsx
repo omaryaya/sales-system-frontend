@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getOrders, deleteOrder } from '../../actions/orders';
+import { getOrders, deleteOrder, getOrderItems } from '../../actions/orders';
 import OrdersTable from './OrdersTable';
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
+import SimpleDialog from '../common/SimpleDialog';
 import AddOrder from './AddOrder';
+import OrderDetails from './OrderDetails';
 
 
 const Orders = props => {
 
     const [currentOrder, setCurrentOrder] = useState({});
+
+    const [isCreateOrderDialogOpen, setIsCreateOrderDialogOpen] = useState(false);
 
     useEffect(() => {
         props.getOrders();
@@ -18,18 +22,20 @@ const Orders = props => {
     return (
         <div>
             
+            <SimpleDialog component={AddOrder} open={isCreateOrderDialogOpen} title="Create Order" onClose={() => setIsCreateOrderDialogOpen(false)} />
             <Grid container spacing={2}>
                 <Grid item xs={12} md={8}>
                     <h1>Orders</h1>
+                    <Button variant="outlined" onClick={() => setIsCreateOrderDialogOpen(!isCreateOrderDialogOpen)}>
+                        Create New Order
+                    </Button>
                     <OrdersTable {...props} setCurrentOrder={setCurrentOrder} />
                 </Grid>
-                <Grid item xs={12} md={2}>
+                <Grid item xs={12} md={4}>
                     <h1>Order Details</h1>
                     <p>{currentOrder.referenceNumber}</p>
-                    
-                </Grid>
-                <Grid item xs={12}>
-                    <AddOrder {...props} />
+                    <OrderDetails currentOrder={currentOrder} {...props} />
+
                 </Grid>
             </Grid>
 
@@ -52,7 +58,7 @@ const mapStateToProps = state => ({
     totalPages: state.orders.totalPages, */
 })
 
-export default connect(mapStateToProps, { getOrders, deleteOrder })(Orders);
+export default connect(mapStateToProps, { getOrders, deleteOrder, getOrderItems })(Orders);
 
 
 

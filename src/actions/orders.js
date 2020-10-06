@@ -5,7 +5,6 @@ import {tokenConfig} from './auth';
 
 // Create Order
 
-// Create Product
 export const createOrder = (orderRequest) => (dispatch, getState) => {
     
     const configuredToken = tokenConfig(getState);
@@ -83,6 +82,24 @@ export const getCurrencies = () => (dispatch, getState) => {
         dispatch({
             type: TYPES.GET_CURRENCIES,
             payload: res.data
+        });
+    }).catch(err => console.error(err));
+}
+
+// Items
+export const getOrderItems = (id) => (dispatch, getState) => {
+    
+    const configuredToken = tokenConfig(getState);
+    const requestConfiguration = {
+        headers: configuredToken,
+    };
+
+    axios.get(Constants.APP_BACKEND_URL+`/orders/order/${id}/items`, requestConfiguration)
+    .then(res => {
+        const payload = {orderId: id, items: res.data};
+        dispatch({
+            type: TYPES.GET_ORDER_ITEMS,
+            payload,
         });
     }).catch(err => console.error(err));
 }

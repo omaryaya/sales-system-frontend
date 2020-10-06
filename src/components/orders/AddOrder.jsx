@@ -51,7 +51,7 @@ const AddOrder = (props) => {
             productId: "",
             quantity: ""
         }]
-        
+
     });
 
     const [orderItems, setOrderItems] = useState([
@@ -94,55 +94,52 @@ const AddOrder = (props) => {
     }
 
     const createNewOrder = () => {
-        setOrder({...order, items: [...orderItems]});
+        setOrder({ ...order, items: [...orderItems] });
         props.createOrder(order);
     }
 
 
     return (
         <div className={classes.tableDivContainer}>
-
-            <TableContainer component={Paper}>
-                <Grid container spacing={2} justify='flex-end'>
-                    <Grid item xs={12} md={2}>
-                        <TextField label="Reference Number" onChange={onChangeOrder} id="referenceNumber" name="referenceNumber" value={order.referenceNumber} />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                        <SelectComponent label="Currency" onChange={onChangeOrder} name="currency" choices={props.currencies} useObjectAsValue={true} />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                        <Typography component="h2" variant="h5" color="inherit" align="right">
-                            <Button onClick={createNewOrder}>
-                                <Add />CREATE NEW ORDER
+            <Grid container spacing={2}>
+                
+                    
+                        <Grid item xs={12} sm={6} lg={7}>
+                            <TextField required label="Reference #" onChange={onChangeOrder} id="referenceNumber" name="referenceNumber" value={order.referenceNumber} />
+                        </Grid>
+                        <Grid item xs={12} sm={4} lg={3}>
+                            <SelectComponent label="Currency" onChange={onChangeOrder} name="currency" choices={props.currencies} useObjectAsValue={true} />
+                        </Grid>
+                    
+                    <TableContainer component={Paper}>
+                    <Table className={classes.table} >
+                        <TableHeader headCells={headCells} classes={classes} />
+                        <TableBody>
+                            {orderItems?.map((item, i) => {
+                                return (
+                                    <TableRow key={i}>
+                                        <TableCell><SelectComponent label="Products" onChange={(e) => onChangeItem(e, i)} choices={props.productsList} name="productId" /></TableCell>
+                                        <TableCell><TextField label="quantity" id="quantity" onChange={(e) => onChangeItem(e, i)} name="quantity" value={item.quantity} /></TableCell>
+                                    </TableRow>
+                                );
+                            }
+                            )}
+                            <TableRow key="extra">
+                                <TableCell>
+                                    <Button onClick={onAddExtraItem}>
+                                        ADD ITEM
                             </Button>
+                                </TableCell>
+                                <TableCell />
+                            </TableRow>
+                        </TableBody>
+                    </Table>
 
-                        </Typography>
-
-                    </Grid>
-                </Grid>
-                <Table className={classes.table} >
-                    <TableHeader headCells={headCells} classes={classes} />
-                    <TableBody>
-                        {orderItems?.map((item, i) => {
-                            return (
-                                <TableRow key={i}>
-                                    <TableCell><SelectComponent label="Products" onChange={(e) => onChangeItem(e, i)} choices={props.productsList} name="productId" /></TableCell>
-                                    <TableCell><TextField label="quantity" id="quantity" onChange={(e) => onChangeItem(e, i)} name="quantity" value={item.quantity} /></TableCell>
-                                </TableRow>
-                            );
-                        }
-                        )}
-                        <TableRow key="extra">
-                            <TableCell>
-                                <Button onClick={onAddExtraItem}>
-                                    ADD ITEM
-                            </Button>
-                            </TableCell>
-                            <TableCell />
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                    <Button fullWidth variant="contained" onClick={createNewOrder}>
+                        <Add />CREATE NEW ORDER
+                    </Button>
+                </TableContainer>
+            </Grid>
         </div>
     );
 };

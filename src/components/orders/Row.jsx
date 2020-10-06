@@ -69,8 +69,8 @@ export default function Row(props) {
                 <TableCell className={classes.tableCell}>
                     <Button onClick={(event) => {
                         // TODO: Implement
-                        console.debug("Expanding details", order.referenceNumber);
                         props.setCurrentOrder(order);
+                        props.getOrderItems(order.id);
                     }}>
                         <KeyboardArrowRight fontSize="small" role="button" />
                     </Button>
