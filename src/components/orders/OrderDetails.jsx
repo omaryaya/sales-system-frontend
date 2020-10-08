@@ -10,7 +10,7 @@ import Add from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { createOrder, getCurrencies } from '../../actions/orders';
+import { createOrder, getCurrencies, getOrderItems } from '../../actions/orders';
 import { getProductsList } from '../../actions/products';
 import SelectComponent from '../common/SelectComponent';
 import TableHeader from '../common/TableHeader';
@@ -37,17 +37,15 @@ const OrderDetails = (props) => {
     const classes = useStyles();
     const { currentOrder } = props;
 
-    const [order, setOrder] = useState({
-        ...currentOrder
-    });
-
-    const [orderItems, setOrderItems] = useState(currentOrder?.items)
-
-    useEffect(() => {
+    /* useEffect(() => {
         props.getProductsList();
         props.getCurrencies();
-        setOrder({ ...currentOrder })
-    }, []);
+        currentOrder.id && props.getOrderItems(currentOrder.id);
+    }, []); */
+/* 
+    useEffect(() => {
+        currentOrder.id && props.getOrderItems(currentOrder.id);
+    }, [currentOrder.id]); */
 
     const headCells = [
         { id: 'product', numeric: false, disablePadding: true, label: 'Product' },
@@ -60,22 +58,21 @@ const OrderDetails = (props) => {
     return (
         <div className={classes.tableDivContainer} component={Paper}>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} lg={7}>
-                    <Typography >{currentOrder.referenceNumber}</Typography>
+                <Grid item xs={12}>
+                    <Typography >Ref #: {currentOrder.referenceNumber}</Typography>
                 </Grid>
-                <Grid item xs={12} sm={4} lg={3}>
-                    <Typography>{currentOrder.currency}</Typography>
+                <Grid item xs={12}>
+                    <Typography>Currency: {currentOrder.currency}</Typography>
                     {/* <SelectComponent label="Currency" onChange={onChangeOrder} name="currency" choices={props.currencies} useObjectAsValue={true} /> */}
                 </Grid>
 
-                {
-                    currentOrder?.items && (
+               {/*  {
+                    currentOrder?.items && ( */}
                         <TableContainer component={Paper}>
                             <Table className={classes.table} >
-                                <TableHeader headCells={headCells} classes={classes} />
+                                {currentOrder?.items?.length > 0 &&  <TableHeader headCells={headCells} classes={classes} />}
                                 <TableBody>
                                     {currentOrder.items?.map((item, i) => {
-                                        console.debug("item", item)
                                         return (
                                             <TableRow key={i}>
                                                 <TableCell>{item.product.name}</TableCell>
@@ -90,8 +87,8 @@ const OrderDetails = (props) => {
                             </Table>
                         </TableContainer>
 
-                    )
-                }
+                    {/* ) */}
+                {/* } */}
 
             </Grid>
         </div>
@@ -110,4 +107,4 @@ const mapStateToProps = state => ({
     currencies: state.orders.currencies
 })
 
-export default connect(mapStateToProps, { getCurrencies, getProductsList, createOrder })(OrderDetails);
+export default connect(mapStateToProps, { getCurrencies, getProductsList, createOrder, getOrderItems })(OrderDetails);

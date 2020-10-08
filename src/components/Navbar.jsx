@@ -1,40 +1,48 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Container, Toolbar, Typography } from "@material-ui/core";
+import {
+    AppBar,
+    Box,
+    Typography,
+    Button
+} from "@material-ui/core";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../actions/auth';
-import { Button, CssBaseline } from '@material-ui/core';
-// import * as jetbrains_logo from '../resources/jetbrains_logo.png';
 import * as jetbrains_logo from '../resources/jb_logo_2.png';
+import AppAlert from "./common/AppAlert";
 
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        font: "Gotham",
-    },
-    logo: {
-        maxHeight: 64,
-        maxWidth: 64,
-    },    
-    toolbar: {
-        minHeight: 128,
-        font: "Gotham",
+    appbar: {
+        maxHeight: "20vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
         padding: theme.spacing(3),
         marginBottom: theme.spacing(3),
-        backgroundColor: "#520314",
+        backgroundColor: "black",
         color: "white",
         [theme.breakpoints.up("md")]: {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            marginBottom: theme.spacing(9),
+            marginBottom: theme.spacing(5),
         },
+
+    },
+    alert :{
+
+    },
+    logo: {
+        maxHeight: 64,
+        maxWidth: 64,
+    },
+    toolbar: {
+
     },
     toolbarTitle: {
         letterSpacing: 1.25,
@@ -56,6 +64,17 @@ const useStyles = makeStyles(theme => ({
         },
         color: "white",
     },
+    endItem: {
+        padding: theme.spacing(1),
+        [theme.breakpoints.up("md")]: {
+            paddingLeft: theme.spacing(3),
+        },
+        color: "white",
+        display: "flex",
+        alignSelf: "stretch"
+    },
+
+
 }));
 
 const NavbarContent = (props) => {
@@ -76,11 +95,15 @@ const NavbarContent = (props) => {
                         className={classes.item}
                         key={item}
                     >
-                        {item.toUpperCase()}
+                        <Typography>{item.toUpperCase()}</Typography>
                     </Link>
                 ))
                 }
-                <Button className={classes.item} onClick={props.logout} >Logout</Button>
+                
+                <Button className={classes.endItem} onClick={props.logout} >
+                    <Typography>Logout</Typography><ExitToAppIcon/>
+                    </Button>
+                
             </Box>
 
         );
@@ -98,7 +121,7 @@ const NavbarContent = (props) => {
                         className={classes.item}
                         key={item}
                     >
-                        {item.toUpperCase()}
+                        <Typography>{item.toUpperCase()}</Typography>
                     </Link>
                 ))
                 }
@@ -117,10 +140,9 @@ function Navbar(props) {
 
 
     return (
-        <Container className={classes.root}>
-            <CssBaseline />
-            <Toolbar className={classes.toolbar}>
-                
+        // <Container className={classes.root}>
+        <AppBar className={classes.appbar} position="sticky" >
+            {/* <Toolbar className={classes.toolbar}> */}
                 <Typography
                     component="h2"
                     variant="h5"
@@ -129,14 +151,16 @@ function Navbar(props) {
                     noWrap
                     className={classes.toolbarTitle}
                 >
-                    <Link to="/orders">
+                    <Link to="/">
                         <img src={jetbrains_logo} alt="jetbrains logo" className={classes.logo} />
                     </Link>
-                    
-          </Typography>
+
+                </Typography>
                 <NavbarContent classes={classes} {...props} />
-            </Toolbar>
-        </Container>
+            {/* </Toolbar> */}
+            <AppAlert className={classes.alert} />
+        </AppBar>
+        // {/* </Container> */}
     );
 }
 

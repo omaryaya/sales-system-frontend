@@ -59,7 +59,6 @@ function Login(props) {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.debug("onSubmit", e);
         props.login(state.usernameOrEmail, state.password);
 
     }
@@ -68,7 +67,6 @@ function Login(props) {
         setState({ ...state, [e.target.name]: e.target.value })
     }
     if(props.isAuthenticated === true) {
-        console.debug("isAuthenticated")
         return <Redirect to="/orders" />
     }
     

@@ -19,6 +19,10 @@ const Orders = props => {
         props.getOrders();
     }, []);
 
+    useEffect(() => {
+        currentOrder.id && props.getOrderItems(currentOrder.id);
+    }, [currentOrder.id])
+
     return (
         <div>
             
@@ -34,7 +38,7 @@ const Orders = props => {
                 <Grid item xs={12} md={4}>
                     <h1>Order Details</h1>
                     <p>{currentOrder.referenceNumber}</p>
-                    <OrderDetails currentOrder={currentOrder} {...props} />
+                    {currentOrder.id && <OrderDetails currentOrder={currentOrder} {...props} />}
 
                 </Grid>
             </Grid>

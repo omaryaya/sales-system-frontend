@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { TableCell } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SelectComponent(props) {
   const classes = useStyles();
-  const { choices, label, name, useObjectAsValue } = props;
+  const { choices, label, useObjectAsValue } = props;
   const [state, setState] = React.useState(-1);
 
   const handleChange = (event) => {
@@ -33,7 +32,7 @@ export default function SelectComponent(props) {
       <Select
         native
         value={state}
-        onChange={handleChange}
+        onChange={(e) => handleChange(e)}
         inputProps={{
           name: props.name,
           id: 'choice-native-simple',

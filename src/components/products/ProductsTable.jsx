@@ -129,8 +129,9 @@ export default function ProductsTable(props) {
 
 
     const headCells = [
-        { id: 'delete', numeric: false, disablePadding: true, label: 'Delete' },
-        { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
+        // { id: 'delete', numeric: false, disablePadding: true, label: 'Delete' },
+        // { id: 'edit', numeric: false, disablePadding: true, label: 'Edit' },
+        { id: 'actions', numeric: false, disablePadding: true, label: 'Actions' },
         { id: 'ID', numeric: false, disablePadding: true, label: 'ID' },
         { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
         { id: 'SKU', numeric: false, disablePadding: false, label: 'SKU' },
@@ -166,7 +167,6 @@ export default function ProductsTable(props) {
         <div className={classes.tableDivContainer}>
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="custom pagination table">
-                    {/* <TableHeader headCells={headCells} tableCellClass={classes.tableCell} /> */}
                     <TableHead>
                         <TableRow key={"head"}>
                             {headCells.map(head => (
@@ -185,7 +185,7 @@ export default function ProductsTable(props) {
                                 console.debug("productBeingEdited", productBeingEdited)
                                 return (
                                     <TableRow key={product.id}>
-                                        <TableCell />
+                                        
                                         <TableCell>
                                             <Button onClick={(event) => {
                                                 console.debug("Saving", product.name);
@@ -204,6 +204,7 @@ export default function ProductsTable(props) {
                             } else {
                                 return (
                                     <TableRow key={product.id} >
+                                        {/* Actions */}
                                         <TableCell className={classes.tableCell}>
                                             <Button onClick={(event) => {
                                                 console.debug("Deleting", product.name)
@@ -211,8 +212,6 @@ export default function ProductsTable(props) {
                                             }}>
                                                 <DeleteIcon fontSize="small" role="button" color="secondary" />
                                             </Button>
-                                        </TableCell>
-                                        <TableCell className={classes.tableCell}>
                                             <Button onClick={(event) => {
                                                 console.debug("Editing", product.name);
                                                 setIsEditing(product.id);
@@ -221,7 +220,6 @@ export default function ProductsTable(props) {
                                                 <EditIcon fontSize="small" role="button" />
                                             </Button>
                                         </TableCell>
-
 
                                         <TableCell>{product.id}</TableCell>
                                         <TableCell>{product.name}</TableCell>

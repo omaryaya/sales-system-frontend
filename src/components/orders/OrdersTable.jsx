@@ -112,8 +112,9 @@ export default function OrdersTable(props) {
 
     const headCells = [
 
-        { id: 'delete', numeric: false, disablePadding: true, label: 'Delete' },
-        { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
+        // { id: 'delete', numeric: false, disablePadding: true, label: 'Delete' },
+        // { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
+        { id: 'actions', numeric: false, disablePadding: true, label: 'Actions' },
 
         { id: 'ID', numeric: false, disablePadding: true, label: 'ID' },
         { id: 'ref', numeric: false, disablePadding: false, label: 'Reference #' },
@@ -127,8 +128,7 @@ export default function OrdersTable(props) {
 
     const handleUpdateOrder = (event) => {
         // TODO: Implement
-        console.debug("updateOrder/event", event)
-        console.debug("updateOrder/event.name", event.name)
+        
 
     };
 
@@ -144,8 +144,7 @@ export default function OrdersTable(props) {
                     }}>
                         <CloseIcon fontSize="small" />
                     </Button>
-                </TableCell>
-                <TableCell>
+
                     <Button onClick={(event) => {
                         // TODO: Implement
                         console.debug("Saving", order.name);
@@ -155,6 +154,7 @@ export default function OrdersTable(props) {
                         <SaveIcon fontSize="small" />
                     </Button>
                 </TableCell>
+
                 <TableCell>{orderBeingEdited.id}</TableCell>
                 <TableCell><input onChange={handleUpdateOrder} name="name" value={orderBeingEdited.referenceNumber} /></TableCell>
                 <TableCell><input onChange={handleUpdateOrder} name="id" value={orderBeingEdited.currency} /></TableCell>

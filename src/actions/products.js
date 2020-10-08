@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as Constants from '../constants';
 import * as TYPES from './types';
+import {setAlert} from './alerts';
 import {tokenConfig} from './auth';
 
 // Get Products
@@ -19,7 +20,9 @@ export const getProducts = (page=0, size=Constants.DEFAULT_PAGE_SIZE) => (dispat
             payload: res.data
         });
         
-    }).catch(err => console.error(err));
+    }).catch(err => {
+        dispatch(setAlert("error", err.response.data.message));
+    });
     
 }
 
@@ -55,7 +58,12 @@ export const deleteProduct = (id) => (dispatch, getState) => {
             payload: id
         });
         dispatch(getProducts());
-    }).catch(err => console.error(err));
+        dispatch(setAlert("success", res.data.message));
+
+
+    }).catch(err => {
+        dispatch(setAlert("error", err.response.data.message));
+    });
 }
 
 // Create Product
@@ -74,11 +82,11 @@ export const createProduct = (productRequest) => (dispatch, getState) => {
             payload: res.data
         });
         dispatch(getProducts());
+
+        dispatch(setAlert("success", res.data.message));
     }).catch(err => {
-        console.error(err);
-        dispatch({
-            type: TYPES.CREATE_PRODUCT_FAILED,
-            payload: err
-        })
+      
+        console.error(err.response);
+        dispatch(setAlert("error", err.response.data.message));
     });
 }

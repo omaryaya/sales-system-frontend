@@ -25,6 +25,15 @@ export const createOrder = (orderRequest) => (dispatch, getState) => {
         dispatch({
             type: TYPES.CREATE_ORDER_FAILED,
             payload: err
+        });
+        const alertOptions = {
+            severity: "error",
+            message: err
+        };
+        dispatch({
+            type: TYPES.SET_ALERT,
+            payload: alertOptions
+
         })
     });
 }
@@ -56,12 +65,14 @@ export const deleteOrder = (id) => (dispatch, getState) => {
         headers: configuredToken,
     };
 
-    axios.delete(Constants.APP_BACKEND_URL+`/orders/${id}/`, requestConfiguration)
+    axios.delete(Constants.APP_BACKEND_URL+`/orders/order/${id}/`, requestConfiguration)
     .then(res => {
         dispatch({
             type: TYPES.DELETE_ORDER,
             payload: id
         });
+        dispatch(getOrders());
+
     }).catch(err => console.error(err));
 }
 
