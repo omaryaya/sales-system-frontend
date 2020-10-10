@@ -23,6 +23,16 @@ const useRowStyles = makeStyles({
             borderBottom: 'unset',
         },
     },
+    referenceNumber: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    cost: {
+        fontWeight: "bold",
+        color: "green"
+    }
 });
 
 const formatOrderDate = orderDate => {
@@ -56,8 +66,9 @@ export default function Row(props) {
                 </TableCell>
 
                 <TableCell>{order.id}</TableCell>
-                <TableCell>{order.referenceNumber} <StatusWidget status={order.status}/> </TableCell>
-                <TableCell>{order.currency}</TableCell>
+                <TableCell className={classes.referenceNumber}>{order.referenceNumber}</TableCell>
+                <TableCell><StatusWidget status={order.status}/></TableCell>
+                <TableCell className={classes.cost}>{(order.cost) ? order.cost : "Unknown" } ({order.currency})</TableCell>
                 <TableCell>{formatOrderDate(order.date)}</TableCell>
                 <TableCell className={classes.tableCell}>
                     <Button onClick={(event) => {

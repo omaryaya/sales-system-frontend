@@ -1,30 +1,34 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import {
+    Button,
+    Table,
+    TableHead,
+    TableBody,
+    TableContainer,
+    TableCell,
+    TableRow,
+    TablePagination,
+    Paper,
+    // TextField,
+    TableFooter,
+    IconButton
+
+} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import SaveIcon from '@material-ui/icons/Save';
-import { Button, TableHead } from '@material-ui/core';
-import TableHeader from '../common/TableHeader';
+import {
+    FirstPage,
+    KeyboardArrowLeft,
+    KeyboardArrowRight,
+    LastPage,
+    Save
+} from '@material-ui/icons';
+// import TableHeader from '../common/TableHeader';
 import * as Constants from '../../constants';
-import PaginationTableFooter from '../common/PaginationTableFooter';
+// import PaginationTableFooter from '../common/PaginationTableFooter';
 import NewProduct from './NewProduct';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import IconButton from '@material-ui/core/IconButton';
 
 // #//#region  Footer
 
@@ -65,7 +69,7 @@ function TablePaginationActions(props) {
                 disabled={page === 0}
                 aria-label="first page"
             >
-                {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+                {theme.direction === 'rtl' ? <LastPage /> : <FirstPage />}
             </IconButton>
             <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
                 {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
@@ -82,7 +86,7 @@ function TablePaginationActions(props) {
                 disabled={page >= Math.ceil(count / rowsPerPage) - 1}
                 aria-label="last page"
             >
-                {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+                {theme.direction === 'rtl' ? <FirstPage /> : <LastPage />}
             </IconButton>
         </div>
     );
@@ -152,14 +156,14 @@ export default function ProductsTable(props) {
         getProducts(newPage, props.size);
     };
 
-    const handleChangeRowsPerPage = (event) => {
+    /* const handleChangeRowsPerPage = (event) => {
 
         const newSize = parseInt(event.target.value, 10);
         setPage(0);
         setRowsPerPage(newSize);
         // props.getProducts(page, newSize);
         getProducts(page, newSize);
-    };
+    }; */
 
 
 
@@ -185,14 +189,14 @@ export default function ProductsTable(props) {
                                 console.debug("productBeingEdited", productBeingEdited)
                                 return (
                                     <TableRow key={product.id}>
-                                        
+
                                         <TableCell>
                                             <Button onClick={(event) => {
                                                 console.debug("Saving", product.name);
                                                 setIsEditing(-1);
                                                 setProductBeingEdited({});
                                             }}>
-                                                <SaveIcon fontSize="small" />
+                                                <Save fontSize="small" />
                                             </Button>
                                         </TableCell>
                                         <TableCell>{productBeingEdited.id}</TableCell>

@@ -8,3 +8,7 @@ export const formatDate = date => {
     };
     return new Date(date).toLocaleDateString('en-US', options);
 }
+
+export const formatMoney = amount => {
+    return amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}

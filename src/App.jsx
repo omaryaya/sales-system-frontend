@@ -16,7 +16,7 @@ import Register from './components/accounts/Register';
 import Login from './components/accounts/Login';
 import PrivateRoute from './components/common/PrivateRoute';
 import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore} from 'redux-persist';
+import { persistStore } from 'redux-persist';
 
 const persistor = persistStore(store);
 
@@ -31,24 +31,23 @@ class App extends Component {
 
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-        <Router>
-        {/* <AppAlert /> */}
-        <Navbar />
-        
-        <div className="App">
-          <CssBaseline />
-          
-            <Switch>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <PrivateRoute exact path="/products" component={Products} />
-              <PrivateRoute exact path="/orders" component={Orders} />
-              <PrivateRoute exact path="/" component={Home} />
-              
-              <Redirect to="/login" />
-            </Switch>
-          </div>
-        </Router>
+          <Router>
+            <Navbar />
+
+            <div className="App">
+              <CssBaseline />
+
+              <Switch>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
+                <PrivateRoute exact path="/products" component={Products} />
+                <PrivateRoute exact path="/orders" component={Orders} />
+                <PrivateRoute exact path="/" component={Home} />
+
+                <Redirect to="/login" />
+              </Switch>
+            </div>
+          </Router>
         </PersistGate>
       </Provider>
 

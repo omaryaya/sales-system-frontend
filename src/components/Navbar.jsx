@@ -17,7 +17,7 @@ import AppAlert from "./common/AppAlert";
 
 const useStyles = makeStyles(theme => ({
     appbar: {
-        maxHeight: "20vh",
+        minHeight: "20vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -26,24 +26,19 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(3),
         backgroundColor: "black",
         color: "white",
-        [theme.breakpoints.up("md")]: {
+        [theme.breakpoints.up("sm")]: {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            marginBottom: theme.spacing(5),
+            marginBottom: theme.spacing(3),
         },
-
     },
-    alert :{
-
-    },
+    alert :{},
     logo: {
         maxHeight: 64,
         maxWidth: 64,
     },
-    toolbar: {
-
-    },
+    toolbar: {},
     toolbarTitle: {
         letterSpacing: 1.25,
         fontWeight: "bold",
@@ -52,29 +47,18 @@ const useStyles = makeStyles(theme => ({
     menuButtons: {
         display: "flex",
         flexDirection: "column",
-        [theme.breakpoints.up("md")]: {
+        [theme.breakpoints.up("sm")]: {
             flexDirection: "row",
         },
         color: "white",
     },
     item: {
         padding: theme.spacing(1),
-        [theme.breakpoints.up("md")]: {
+        [theme.breakpoints.up("sm")]: {
             paddingLeft: theme.spacing(3),
         },
         color: "white",
     },
-    endItem: {
-        padding: theme.spacing(1),
-        [theme.breakpoints.up("md")]: {
-            paddingLeft: theme.spacing(3),
-        },
-        color: "white",
-        display: "flex",
-        alignSelf: "stretch"
-    },
-
-
 }));
 
 const NavbarContent = (props) => {
@@ -100,7 +84,7 @@ const NavbarContent = (props) => {
                 ))
                 }
                 
-                <Button className={classes.endItem} onClick={props.logout} >
+                <Button className={classes.item} onClick={props.logout} >
                     <Typography>Logout</Typography><ExitToAppIcon/>
                     </Button>
                 
@@ -114,7 +98,6 @@ const NavbarContent = (props) => {
                 {["register", "login"].map(item => (
                     <Link
                         to={`/${item}`}
-                        // component="button"
                         variant="body2"
                         onClick={() => setActiveBtn(item)}
                         color={activeBtn === item ? "textPrimary" : "textSecondary"}
@@ -149,7 +132,7 @@ function Navbar(props) {
                     color="inherit"
                     align="left"
                     noWrap
-                    className={classes.toolbarTitle}
+                    className={classes.menuButtons}
                 >
                     <Link to="/">
                         <img src={jetbrains_logo} alt="jetbrains logo" className={classes.logo} />

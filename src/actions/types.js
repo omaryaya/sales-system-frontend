@@ -29,6 +29,9 @@ export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
 
+// Dashboard
+export const SET_YEAR_PROFIT = "SET_YEAR_PROFIT";
+
 // ALERTS
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";

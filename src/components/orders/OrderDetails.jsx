@@ -1,4 +1,8 @@
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import { /* Button, */
+    Grid,
+    //   TextField,
+    Typography
+} from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -6,13 +10,13 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
-import Add from '@material-ui/icons/Add';
+// import Add from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React/* , { useEffect, useState } */ from 'react';
 import { connect } from 'react-redux';
 import { createOrder, getCurrencies, getOrderItems } from '../../actions/orders';
 import { getProductsList } from '../../actions/products';
-import SelectComponent from '../common/SelectComponent';
+// import SelectComponent from '../common/SelectComponent';
 import TableHeader from '../common/TableHeader';
 
 
@@ -42,10 +46,10 @@ const OrderDetails = (props) => {
         props.getCurrencies();
         currentOrder.id && props.getOrderItems(currentOrder.id);
     }, []); */
-/* 
-    useEffect(() => {
-        currentOrder.id && props.getOrderItems(currentOrder.id);
-    }, [currentOrder.id]); */
+    /* 
+        useEffect(() => {
+            currentOrder.id && props.getOrderItems(currentOrder.id);
+        }, [currentOrder.id]); */
 
     const headCells = [
         { id: 'product', numeric: false, disablePadding: true, label: 'Product' },
@@ -66,28 +70,28 @@ const OrderDetails = (props) => {
                     {/* <SelectComponent label="Currency" onChange={onChangeOrder} name="currency" choices={props.currencies} useObjectAsValue={true} /> */}
                 </Grid>
 
-               {/*  {
+                {/*  {
                     currentOrder?.items && ( */}
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table} >
-                                {currentOrder?.items?.length > 0 &&  <TableHeader headCells={headCells} classes={classes} />}
-                                <TableBody>
-                                    {currentOrder.items?.map((item, i) => {
-                                        return (
-                                            <TableRow key={i}>
-                                                <TableCell>{item.product.name}</TableCell>
-                                                <TableCell>{item.quantity}</TableCell>
-                                                {/* <TableCell><SelectComponent label="Products" onChange={(e) => onChangeItem(e, i)} choices={props.productsList} name="productId" /></TableCell>
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} >
+                        {currentOrder?.items?.length > 0 && <TableHeader headCells={headCells} classes={classes} />}
+                        <TableBody>
+                            {currentOrder.items?.map((item, i) => {
+                                return (
+                                    <TableRow key={i}>
+                                        <TableCell>{item.product.name}</TableCell>
+                                        <TableCell>{item.quantity}</TableCell>
+                                        {/* <TableCell><SelectComponent label="Products" onChange={(e) => onChangeItem(e, i)} choices={props.productsList} name="productId" /></TableCell>
                                         <TableCell><TextField label="quantity" id="quantity" onChange={(e) => onChangeItem(e, i)} name="quantity" value={item.quantity} /></TableCell> */}
-                                            </TableRow>
-                                        );
-                                    }
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                    </TableRow>
+                                );
+                            }
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
-                    {/* ) */}
+                {/* ) */}
                 {/* } */}
 
             </Grid>

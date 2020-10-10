@@ -118,8 +118,9 @@ export default function OrdersTable(props) {
 
         { id: 'ID', numeric: false, disablePadding: true, label: 'ID' },
         { id: 'ref', numeric: false, disablePadding: false, label: 'Reference #' },
+        { id: 'status', numeric: false, disablePadding: true, label: 'Status' },
 
-        { id: 'currency', numeric: false, disablePadding: false, label: 'Currency' },
+        { id: 'cost', numeric: false, disablePadding: false, label: 'Cost' },
         { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
         { id: 'details', numeric: false, disablePadding: false, label: 'Details' },
 
