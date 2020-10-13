@@ -65,7 +65,6 @@ export default function Row(props) {
                     </Button>
                 </TableCell>
 
-                <TableCell>{order.id}</TableCell>
                 <TableCell className={classes.referenceNumber}>{order.referenceNumber}</TableCell>
                 <TableCell><StatusWidget status={order.status}/></TableCell>
                 <TableCell className={classes.cost}>{(order.cost) ? order.cost : "Unknown" } ({order.currency})</TableCell>

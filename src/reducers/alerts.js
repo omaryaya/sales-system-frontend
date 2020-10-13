@@ -6,6 +6,8 @@ import {
 
 const initialState = {
     visible: false,
+    severity: "",
+    message: ""
 }
 
 export default function (state = initialState, action) {

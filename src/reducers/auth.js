@@ -13,7 +13,9 @@ const initialState = {
     token: null,
     isAuthenticated: null,
     isLoading: false,
-    user: null
+    user: null,
+    accessToken: null,
+    tokenType: null
 }
 
 export default function (state = initialState, action) {
@@ -39,7 +41,9 @@ export default function (state = initialState, action) {
                 token: null,
                 user: null,
                 isAuthenticated: false,
-                isLoading: false
+                isLoading: false,
+                accessToken: null,
+                tokenType: null
 
             }
         case LOGIN_SUCCESS:

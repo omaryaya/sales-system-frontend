@@ -39,7 +39,6 @@ const NewProduct = (props) => {
                     <AddIcon fontSize="small" /> 
                 </Button></TableCell>
             
-            {<TableCell /> /* ID */ }
             <TableCell><input placeholder={"Product Name"} onChange={handleUpdateNewProduct} name="name" value={newProduct.name} /></TableCell>
             <TableCell><input placeholder={"Product SKU"} onChange={handleUpdateNewProduct} name="sku" value={newProduct.sku} /></TableCell>
             <TableCell className={priceStyle}><input placeholder={"Price"} onChange={handleUpdateNewProduct} key="price" name="price" value={newProduct.price} /></TableCell>

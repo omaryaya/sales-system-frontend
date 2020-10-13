@@ -69,7 +69,7 @@ const NavbarContent = (props) => {
         return (
 
             <Box className={classes.menuButtons}>
-                {["products", "orders"].map(item => (
+                {["products", "orders", "customers"].map(item => (
                     <Link
                         to={`/${item}`}
                         // component="button"

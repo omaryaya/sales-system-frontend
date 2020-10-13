@@ -31,6 +31,10 @@ const useStyles = makeStyles({
         padding: "5vh"
     }
 });
+const EMPTY_ITEM_TEMPLATE = {
+    productId: "",
+    quantity: ""
+};
 
 
 const AddOrder = (props) => {
@@ -40,16 +44,12 @@ const AddOrder = (props) => {
     const [order, setOrder] = useState({
         referenceNumber: "",
         currency: "",
-        items: [{
-            productId: "",
-            quantity: ""
-        }]
 
     });
 
-    const [orderItems, setOrderItems] = useState([
-        
-    ])
+    const [orderItems, setOrderItems] = useState(
+        [EMPTY_ITEM_TEMPLATE]
+    )
 
     useEffect(() => {
         props.getProductsList();
@@ -58,7 +58,6 @@ const AddOrder = (props) => {
 
     const headCells = [
         { id: 'product', numeric: false, disablePadding: true, label: 'Product' },
-
         { id: 'quantity', numeric: false, disablePadding: true, label: 'Quantity' },
 
     ];
@@ -70,23 +69,30 @@ const AddOrder = (props) => {
 
     // Changing order items fields
     const onChangeItem = (e, i) => {
-        var tempItems = [...orderItems];
-        tempItems[i][e.target.name] = e.target.value;
-        setOrderItems(tempItems);
+        /* var tempItems = [...orderItems];
+        tempItems[i] = e.target.value;
+        setOrderItems(tempItems); */
+        console.debug("items before", orderItems)
+        setOrderItems(orderItems.map((item, key) => 
+            key === i 
+            ? {...item, [e.target.name] : e.target.value}
+            : item
+        ));
+        console.debug("items after", orderItems)
     }
 
 
     const onAddExtraItem = (e, i) => {
         var tempItems = [...orderItems];
-        tempItems.push({
-        });
+        tempItems.push(EMPTY_ITEM_TEMPLATE);
         setOrderItems(tempItems);
     }
 
     const createNewOrder = () => {
+
+        setOrder(...order, orderItems);
         console.debug("order", order)
         console.debug("orderItems", orderItems)
-        setOrder({ ...order, items: orderItems });
         props.createOrder(order);
     }
 
@@ -109,7 +115,7 @@ const AddOrder = (props) => {
                                 return (
                                     <TableRow key={i}>
                                         <TableCell><SelectComponent label="Products" onChange={(e) => onChangeItem(e, i)} choices={props.productsList} name="productId" /></TableCell>
-                                        <TableCell><TextField label="quantity" id="quantity" onChange={(e) => onChangeItem(e, i)} name="quantity" value={item.quantity || ''} /></TableCell>
+                                        <TableCell><TextField label="quantity" id="quantity" onChange={(e) => onChangeItem(e, i)} name="quantity" value={item.quantity} /></TableCell>
                                     </TableRow>
                                 );
                             }
@@ -118,7 +124,7 @@ const AddOrder = (props) => {
                                 <TableCell>
                                     <Button onClick={onAddExtraItem}>
                                         ADD ITEM
-                            </Button>
+                                    </Button>
                                 </TableCell>
                                 <TableCell />
                             </TableRow>

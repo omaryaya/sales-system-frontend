@@ -133,10 +133,7 @@ export default function ProductsTable(props) {
 
 
     const headCells = [
-        // { id: 'delete', numeric: false, disablePadding: true, label: 'Delete' },
-        // { id: 'edit', numeric: false, disablePadding: true, label: 'Edit' },
         { id: 'actions', numeric: false, disablePadding: true, label: 'Actions' },
-        { id: 'ID', numeric: false, disablePadding: true, label: 'ID' },
         { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
         { id: 'SKU', numeric: false, disablePadding: false, label: 'SKU' },
         { id: 'price', numeric: true, disablePadding: false, label: 'Price' },
@@ -153,7 +150,7 @@ export default function ProductsTable(props) {
         console.debug("handling change page/newPage", newPage)
         setPage(newPage);
 
-        getProducts(newPage, props.size);
+        getProducts(newPage);
     };
 
     /* const handleChangeRowsPerPage = (event) => {
@@ -199,7 +196,6 @@ export default function ProductsTable(props) {
                                                 <Save fontSize="small" />
                                             </Button>
                                         </TableCell>
-                                        <TableCell>{productBeingEdited.id}</TableCell>
                                         <TableCell><input onChange={handleUpdateProductBeingEdited} name="name" value={productBeingEdited.name} /></TableCell>
                                         <TableCell><input onChange={handleUpdateProductBeingEdited} name="sku" value={productBeingEdited.sku} /></TableCell>
                                         <TableCell className={classes.price}><input onChange={handleUpdateProductBeingEdited} name="price" value={productBeingEdited.price} /></TableCell>
@@ -225,7 +221,6 @@ export default function ProductsTable(props) {
                                             </Button>
                                         </TableCell>
 
-                                        <TableCell>{product.id}</TableCell>
                                         <TableCell>{product.name}</TableCell>
                                         <TableCell>{product.sku}</TableCell>
                                         <TableCell className={classes.price}>{product.price}</TableCell>

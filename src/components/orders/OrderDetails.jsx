@@ -41,16 +41,6 @@ const OrderDetails = (props) => {
     const classes = useStyles();
     const { currentOrder } = props;
 
-    /* useEffect(() => {
-        props.getProductsList();
-        props.getCurrencies();
-        currentOrder.id && props.getOrderItems(currentOrder.id);
-    }, []); */
-    /* 
-        useEffect(() => {
-            currentOrder.id && props.getOrderItems(currentOrder.id);
-        }, [currentOrder.id]); */
-
     const headCells = [
         { id: 'product', numeric: false, disablePadding: true, label: 'Product' },
 

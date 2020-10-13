@@ -112,11 +112,8 @@ export default function OrdersTable(props) {
 
     const headCells = [
 
-        // { id: 'delete', numeric: false, disablePadding: true, label: 'Delete' },
-        // { id: 'edit', numeric: false, disablePadding: false, label: 'Edit' },
         { id: 'actions', numeric: false, disablePadding: true, label: 'Actions' },
 
-        { id: 'ID', numeric: false, disablePadding: true, label: 'ID' },
         { id: 'ref', numeric: false, disablePadding: false, label: 'Reference #' },
         { id: 'status', numeric: false, disablePadding: true, label: 'Status' },
 

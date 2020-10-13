@@ -6,6 +6,11 @@ import {connect} from 'react-redux';
 const AppAlert = (props) => {
     
     const {visible, severity, message} = props;
+
+    if(!visible || visible === false)
+        return null;
+
+    console.debug(props);
         
     return (
         <>
@@ -17,7 +22,7 @@ const AppAlert = (props) => {
 AppAlert.propTypes = {
     visible: PropTypes.bool,
     severity: PropTypes.string,
-    // message: PropTypes.string
+    message: PropTypes.string
 }
 
 const mapStateToProps = state => ({

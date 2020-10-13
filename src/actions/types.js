@@ -19,6 +19,11 @@ export const GET_ORDER_ITEMS = "GET_ORDER_ITEMS";
 export const DELETE_ORDER = "DELETE_ORDER";
 export const GET_CURRENCIES = "GET_CURRENCIES";
 
+// Customers
+export const GET_CUSTOMERS = "GET_CUSTOMERS";
+export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+
 // Users
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";

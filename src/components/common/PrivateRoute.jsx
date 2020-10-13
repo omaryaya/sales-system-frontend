@@ -10,7 +10,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => (
             return <CircularProgress color="secondary" />
 
         } else if (auth.isAuthenticated === false) {
-            return <Redirect to="/" />
+            return <Redirect to="/login" />
         } else {
             return <Component {...props} />;
         }
