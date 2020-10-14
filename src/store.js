@@ -9,7 +9,7 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['alerts', 'products', 'orders']
+  blacklist: ['alerts', 'products']
 }
  
 const persistedReducer = persistReducer(persistConfig, rootReducer);

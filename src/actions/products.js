@@ -44,6 +44,28 @@ export const getProductsList = () => (dispatch, getState) => {
     
 }
 
+// Update Product
+export const updateProduct = (product) => (dispatch, getState) => {
+    
+    const configuredToken = tokenConfig(getState);
+    
+    const requestConfiguration = {
+        headers: configuredToken,
+    };
+    
+    axios.put(Constants.APP_BACKEND_URL+"/products/product/", product, requestConfiguration)
+    .then(res => {
+        dispatch(getProducts());
+
+        dispatch(setAlert("success", res.data.message));
+    }).catch(err => {
+      
+        console.error(err.response);
+        dispatch(setAlert("error", err.response.data.message));
+    });
+}
+
+
 // Delete Product
 export const deleteProduct = (id) => (dispatch, getState) => {
     const configuredToken = tokenConfig(getState);

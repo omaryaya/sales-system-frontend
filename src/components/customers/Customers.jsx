@@ -28,8 +28,8 @@ const Customers = props => {
     ];
 
     useEffect(() => {
-        getCustomers();
-    })
+        props.getCustomers();
+    }, [])
 
     const onChangeNewCustomer = e => {
         setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });

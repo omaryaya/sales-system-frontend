@@ -58,6 +58,24 @@ export const getOrders = (page=0, size=Constants.DEFAULT_PAGE_SIZE) => (dispatch
     }).catch(err => console.error(err));
 }
 
+// get order
+
+export const getOrder = (id) => (dispatch, getState) => {
+    
+    const configuredToken = tokenConfig(getState);
+    const requestConfiguration = {
+        headers: configuredToken,
+    };
+
+    axios.get(Constants.APP_BACKEND_URL+`/orders/order/${id}`, requestConfiguration)
+    .then(res => {
+        dispatch({
+            type: TYPES.GET_ORDER,
+            payload: res.data
+        });
+    }).catch(err => console.error(err));
+}
+
 // Delete Order
 export const deleteOrder = (id) => (dispatch, getState) => {
     const configuredToken = tokenConfig(getState);

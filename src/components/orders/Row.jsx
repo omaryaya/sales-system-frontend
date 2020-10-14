@@ -5,6 +5,7 @@ import { Delete, Edit, KeyboardArrowRight } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import * as Utils from '../../util';
 import StatusWidget from '../common/StatusWidget';
+import { Link } from 'react-router-dom';
 
 Row.propTypes = {
     row: PropTypes.shape({
@@ -41,11 +42,7 @@ const formatOrderDate = orderDate => {
 
 export default function Row(props) {
     const { order } = props;
-    // const { classes } = props;
     const classes = useRowStyles();
-
-
-
 
     return (
         <React.Fragment>
@@ -56,27 +53,13 @@ export default function Row(props) {
                     }}>
                         <Delete fontSize="small" role="button" color="secondary" />
                     </Button>
-                    <Button onClick={(event) => {
-                        console.debug("Editing", order.referenceNumber);
-                        props.setIsEditing(order.id);
-                        props.setOrderBeingEdited(order);
-                    }}>
-                        <Edit fontSize="small" role="button" />
-                    </Button>
                 </TableCell>
 
-                <TableCell className={classes.referenceNumber}>{order.referenceNumber}</TableCell>
+                <TableCell><Link to={`/orders/order/${order.id}`}>{order.referenceNumber}</Link></TableCell>
+                <TableCell>{order.customer?.name}</TableCell>
                 <TableCell><StatusWidget status={order.status}/></TableCell>
                 <TableCell className={classes.cost}>{(order.cost) ? order.cost : "Unknown" } ({order.currency})</TableCell>
                 <TableCell>{formatOrderDate(order.date)}</TableCell>
-                <TableCell className={classes.tableCell}>
-                    <Button onClick={(event) => {
-                        // TODO: Implement
-                        props.setCurrentOrder(order);
-                    }}>
-                        <KeyboardArrowRight fontSize="small" role="button" />
-                    </Button>
-                </TableCell>
             </TableRow>
         </React.Fragment>
     );

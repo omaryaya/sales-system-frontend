@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getProducts, deleteProduct, createProduct } from '../../actions/products';
+import { getProducts, deleteProduct, createProduct, updateProduct } from '../../actions/products';
 import ProductsTable from './ProductsTable';
 
 class Products extends Component {
@@ -42,4 +42,4 @@ const mapStateToProps = state => ({
     totalPages: state.products.totalPages,
 })
 
-export default connect(mapStateToProps, { getProducts, deleteProduct, createProduct })(Products);
+export default connect(mapStateToProps, { getProducts, deleteProduct, createProduct, updateProduct })(Products);

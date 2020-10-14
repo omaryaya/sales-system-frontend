@@ -11,35 +11,23 @@ import OrderDetails from './OrderDetails';
 
 const Orders = props => {
 
-    const [currentOrder, setCurrentOrder] = useState({});
-
     const [isCreateOrderDialogOpen, setIsCreateOrderDialogOpen] = useState(false);
 
     useEffect(() => {
         props.getOrders();
     }, []);
 
-    useEffect(() => {
-        currentOrder.id && props.getOrderItems(currentOrder.id);
-    }, [currentOrder.id])
-
     return (
         <div>
             
             <SimpleDialog component={AddOrder} open={isCreateOrderDialogOpen} title="Create Order" onClose={() => setIsCreateOrderDialogOpen(false)} />
             <Grid container spacing={2}>
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12}>
                     <h1>Orders</h1>
                     <Button variant="outlined" onClick={() => setIsCreateOrderDialogOpen(!isCreateOrderDialogOpen)}>
                         Create New Order
                     </Button>
-                    <OrdersTable {...props} setCurrentOrder={setCurrentOrder} />
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <h1>Order Details</h1>
-                    <p>{currentOrder.referenceNumber}</p>
-                    {currentOrder.id && <OrderDetails currentOrder={currentOrder} {...props} />}
-
+                    <OrdersTable {...props}/>
                 </Grid>
             </Grid>
 

@@ -8,6 +8,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Navbar from './components/Navbar';
 import Products from './components/products/Products';
 import Orders from './components/orders/Orders';
+import OrderDetails from './components/orders/OrderDetails';
 import Home from './components/Home';
 
 import { Provider } from 'react-redux';
@@ -43,6 +44,7 @@ class App extends Component {
                 <Route exact path="/register" component={Register} />
                 <PrivateRoute exact path="/products" component={Products} />
                 <PrivateRoute exact path="/orders" component={Orders} />
+                <PrivateRoute exact path="/orders/order/:id" component={OrderDetails} />
                 <PrivateRoute exact path="/customers" component={Customers} />
                 <PrivateRoute exact path="/" component={Home} />
 

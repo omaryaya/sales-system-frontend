@@ -12,11 +12,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 // import Add from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
-import React/* , { useEffect, useState } */ from 'react';
+import React, { useEffect }/* , { useEffect, useState } */ from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux';
-import { createOrder, getCurrencies, getOrderItems } from '../../actions/orders';
-import { getProductsList } from '../../actions/products';
-// import SelectComponent from '../common/SelectComponent';
+import { getOrder } from '../../actions/orders';
+
+
 import TableHeader from '../common/TableHeader';
 
 
@@ -39,29 +40,33 @@ const useStyles = makeStyles({
 const OrderDetails = (props) => {
 
     const classes = useStyles();
-    const { currentOrder } = props;
+    const oId = props.match?.params?.id;
+    const [currentOrder, setCurrentOrder] = useState({});
 
     const headCells = [
         { id: 'product', numeric: false, disablePadding: true, label: 'Product' },
-
         { id: 'quantity', numeric: false, disablePadding: true, label: 'Quantity' },
-
     ];
+
+    useEffect(() => {
+        props.getOrder(oId);
+        setCurrentOrder(props.orders.find((o) => o.id == oId));
+    }, []);
 
 
     return (
         <div className={classes.tableDivContainer} component={Paper}>
             <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Typography >Ref #: {currentOrder.referenceNumber}</Typography>
+                <Grid item xs={12} sm={4}>
+                    <Typography variant="h5">Ref #: {currentOrder.referenceNumber}</Typography>
                 </Grid>
-                <Grid item xs={12}>
-                    <Typography>Currency: {currentOrder.currency}</Typography>
-                    {/* <SelectComponent label="Currency" onChange={onChangeOrder} name="currency" choices={props.currencies} useObjectAsValue={true} /> */}
+                <Grid item xs={12} sm={4}>
+                    <Typography variant="h5">Cost: {currentOrder.cost + "("+currentOrder.currency+")"}</Typography>
                 </Grid>
+                {currentOrder.customer?.name && <Grid item xs={12} sm={4}>
+                    <Typography variant="h5">Customer: {currentOrder.customer.name}</Typography>
+                </Grid>}
 
-                {/*  {
-                    currentOrder?.items && ( */}
                 <TableContainer component={Paper}>
                     <Table className={classes.table} >
                         {currentOrder?.items?.length > 0 && <TableHeader headCells={headCells} classes={classes} />}
@@ -71,8 +76,6 @@ const OrderDetails = (props) => {
                                     <TableRow key={i}>
                                         <TableCell>{item.product.name}</TableCell>
                                         <TableCell>{item.quantity}</TableCell>
-                                        {/* <TableCell><SelectComponent label="Products" onChange={(e) => onChangeItem(e, i)} choices={props.productsList} name="productId" /></TableCell>
-                                        <TableCell><TextField label="quantity" id="quantity" onChange={(e) => onChangeItem(e, i)} name="quantity" value={item.quantity} /></TableCell> */}
                                     </TableRow>
                                 );
                             }
@@ -80,10 +83,6 @@ const OrderDetails = (props) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-
-                {/* ) */}
-                {/* } */}
-
             </Grid>
         </div>
     );
@@ -92,13 +91,14 @@ const OrderDetails = (props) => {
 OrderDetails.propTypes = {
     productsList: PropTypes.array.isRequired,
     currencies: PropTypes.array.isRequired,
-    currentOrder: PropTypes.object.isRequired
+    orders: PropTypes.array.isRequired
 }
 
 
 const mapStateToProps = state => ({
     productsList: state.products.productsList,
-    currencies: state.orders.currencies
+    currencies: state.orders.currencies,
+    orders: state.orders.orders
 })
 
-export default connect(mapStateToProps, { getCurrencies, getProductsList, createOrder, getOrderItems })(OrderDetails);
+export default connect(mapStateToProps, { getOrder })(OrderDetails);

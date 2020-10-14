@@ -106,8 +106,6 @@ const useStyles2 = makeStyles({
 export default function OrdersTable(props) {
     const classes = useStyles2();
     const { orders } = props;
-    const [isEditing, setIsEditing] = useState(-1);
-    const [orderBeingEdited, setOrderBeingEdited] = useState({});
 
 
     const headCells = [
@@ -115,51 +113,13 @@ export default function OrdersTable(props) {
         { id: 'actions', numeric: false, disablePadding: true, label: 'Actions' },
 
         { id: 'ref', numeric: false, disablePadding: false, label: 'Reference #' },
+        { id: 'customer', numeric: false, disablePadding: false, label: 'Customer' },
         { id: 'status', numeric: false, disablePadding: true, label: 'Status' },
 
         { id: 'cost', numeric: false, disablePadding: false, label: 'Cost' },
-        { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
-        { id: 'details', numeric: false, disablePadding: false, label: 'Details' },
+        { id: 'date', numeric: false, disablePadding: false, label: 'Date' }
 
     ];
-
-
-    const handleUpdateOrder = (event) => {
-        // TODO: Implement
-        
-
-    };
-
-    const EditableRow = (order) => {
-        return (
-            <TableRow key={order.id}>
-                <TableCell >
-                    <Button onClick={(event) => {
-                        // TODO: Implement
-                        console.debug("Dismissing", order.name);
-                        setIsEditing(-1);
-                        setOrderBeingEdited({});
-                    }}>
-                        <CloseIcon fontSize="small" />
-                    </Button>
-
-                    <Button onClick={(event) => {
-                        // TODO: Implement
-                        console.debug("Saving", order.name);
-                        setIsEditing(-1);
-                        setOrderBeingEdited({});
-                    }}>
-                        <SaveIcon fontSize="small" />
-                    </Button>
-                </TableCell>
-
-                <TableCell>{orderBeingEdited.id}</TableCell>
-                <TableCell><input onChange={handleUpdateOrder} name="name" value={orderBeingEdited.referenceNumber} /></TableCell>
-                <TableCell><input onChange={handleUpdateOrder} name="id" value={orderBeingEdited.currency} /></TableCell>
-                <TableCell />
-            </TableRow>
-        );
-    }
 
 
     return (
@@ -169,15 +129,9 @@ export default function OrdersTable(props) {
                     <TableHeader headCells={headCells} classes={classes} />
                     <TableBody>
                         {orders?.map((order, i) => {
-                            if (isEditing === order.id) {
-                                return (
-                                    <EditableRow key={i} order={order} />
-                                );
-                            } else {
-                                return (
-                                    <Row key={order.id} {...props} setIsEditing={setIsEditing} setOrderBeingEdited={setOrderBeingEdited} order={order} />
-                                )
-                            }
+                            return (
+                                <Row key={order.id} {...props} order={order} />
+                            )    
                         }
                         )}
                     </TableBody>

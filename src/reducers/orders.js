@@ -1,4 +1,4 @@
-import { GET_ORDERS, DELETE_ORDER, GET_CURRENCIES, GET_ORDER_ITEMS } from "../actions/types";
+import { GET_ORDERS,GET_ORDER, DELETE_ORDER, GET_CURRENCIES, GET_ORDER_ITEMS } from "../actions/types";
 
 const initialState = {
   orders: [],
@@ -25,6 +25,19 @@ export default function (state = initialState, action) {
         totalElements: action.payload.totalElements,
         totalPages: action.payload.totalPages, */
 
+      }
+      case GET_ORDER:
+      const {order} = action.payload;
+      const  oItems = action.payload.items;
+      console.debug("order", order)
+      return {
+        ...state,
+        orders: state.orders.map(
+          (o, i) => o.id === order.id ? order : o
+        ),
+        orders: state.orders.map(
+          (o, i) => o.id === order.id ? {...o, items: oItems} : o
+        )
       }
     case GET_CURRENCIES:
       return {

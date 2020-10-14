@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import CloseIcon from '@material-ui/icons/CloseSharp';
 import {
     FirstPage,
     KeyboardArrowLeft,
@@ -143,24 +144,13 @@ export default function ProductsTable(props) {
     const emptyRows = (props.content) ? rowsPerPage - Math.min(rowsPerPage, props?.content?.length - page * rowsPerPage) : Constants.DEFAULT_PAGE_SIZE;
 
     const handleUpdateProductBeingEdited = e => {
-        console.debug("update product being edited", e);
+        setProductBeingEdited({...productBeingEdited, [e.target.name]: e.target.value});
     }
 
     const handleChangePage = (event, newPage) => {
-        console.debug("handling change page/newPage", newPage)
         setPage(newPage);
-
         getProducts(newPage);
     };
-
-    /* const handleChangeRowsPerPage = (event) => {
-
-        const newSize = parseInt(event.target.value, 10);
-        setPage(0);
-        setRowsPerPage(newSize);
-        // props.getProducts(page, newSize);
-        getProducts(page, newSize);
-    }; */
 
 
 
@@ -183,13 +173,19 @@ export default function ProductsTable(props) {
                             : props.content
                         )?.map((product) => {
                             if (isEditing === product.id) {
-                                console.debug("productBeingEdited", productBeingEdited)
                                 return (
                                     <TableRow key={product.id}>
-
                                         <TableCell>
+                                        <Button onClick={(event) => {
+                                                setIsEditing(-1);
+                                                setProductBeingEdited({});
+                                            }}>
+                                                <CloseIcon fontSize="small" />
+                                            </Button>
+
                                             <Button onClick={(event) => {
-                                                console.debug("Saving", product.name);
+                                                console.debug("Saving", productBeingEdited.name);
+                                                props.updateProduct(productBeingEdited);
                                                 setIsEditing(-1);
                                                 setProductBeingEdited({});
                                             }}>
@@ -204,7 +200,6 @@ export default function ProductsTable(props) {
                             } else {
                                 return (
                                     <TableRow key={product.id} >
-                                        {/* Actions */}
                                         <TableCell className={classes.tableCell}>
                                             <Button onClick={(event) => {
                                                 console.debug("Deleting", product.name)
