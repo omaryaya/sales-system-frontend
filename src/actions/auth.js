@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as Constants from '../constants';
+import { setAlert } from './alerts';
 import * as TYPES from './types';
 
 // check token & load
@@ -40,7 +41,8 @@ export const login = (usernameOrEmail, password) => (dispatch) => {
             })
         }).catch(err => {
 
-            dispatch({ type: TYPES.LOGIN_FAILURE })
+            dispatch({ type: TYPES.LOGIN_FAILURE });
+            dispatch(setAlert("error", err.response.data.message));
         })
 }
 
@@ -63,9 +65,11 @@ export const register = (userdata) => (dispatch) => {
                 type: TYPES.REGISTER,
                 payload: res.data
             });
+            dispatch(setAlert("success", res.data.message));
         }).catch(err => {
 
             dispatch({ type: TYPES.LOGIN_FAILURE })
+            dispatch(setAlert("error", err.response.data.message));
             return false;
         })
 }
